@@ -279,9 +279,15 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     _contentView.frame = CGRectMake(
                                     _padding.left,
                                     _padding.top,
-                                    _contentView.bounds.size.width + _padding.left + _padding.right,
-                                    _contentView.bounds.size.height + _padding.top + _padding.bottom
+                                    _contentView.frame.size.width,
+                                    _contentView.frame.size.height
                                     );
+    _containerView.frame = CGRectMake(
+                                      _containerView.frame.origin.x,
+                                      _containerView.frame.origin.y,
+                                      _contentView.bounds.size.width + _padding.left + _padding.right,
+                                      _contentView.bounds.size.height + _padding.top + _padding.bottom
+                                      );
 }
 
 - (BOOL)positionTooltipForArrowDirection:(CLKTooltipArrowDirection)arrowDirection
