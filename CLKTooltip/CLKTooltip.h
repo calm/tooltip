@@ -95,7 +95,7 @@ typedef NS_ENUM(NSUInteger, CLKTooltipArrowDirection) {
 - (void)presentFromView:(UIView *)view animated:(BOOL)animated;
 - (void)presentFromView:(UIView *)view;
 
-@property (nonatomic, weak, readonly) UIView *fromView; // the view, if any, that the tooltip is showing from
+@property (nonatomic, strong, readonly) UIView *fromView; // the view, if any, that the tooltip is showing from
 
 // Presents from a rect in a given view
 - (void)presentFromRect:(CGRect)rect inView:(UIView *)view;

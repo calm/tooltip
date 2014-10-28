@@ -13,7 +13,7 @@ const static UIEdgeInsets defaultPadding = {18, 24, 18, 24};
 const static UIEdgeInsets defaultMargin = {10, 10, 10, 10};
 
 @interface CLKTooltip ()
-@property (nonatomic, weak) UIView *fromView; // from view
+@property (nonatomic, strong) UIView *fromView; // from view
 @property (nonatomic, weak) UIView *inView; // in view
 
 @end
@@ -51,7 +51,6 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     return self;
 }
 
-
 - (id)initWithAttributedString:(NSAttributedString *)attrStr
 {
     return [self initWithAttributedString:attrStr
@@ -87,6 +86,11 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         self.contentView = label;
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [self stopObservingFromView];
 }
 
 - (NSAttributedString *)attributedString
@@ -474,11 +478,16 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     [self updateShapeLayer];
 }
 
-- (void)setFromView:(UIView *)fromView
+- (void)stopObservingFromView
 {
     if (_fromView.layer) {
         [_fromView.layer removeObserver:self forKeyPath:@"position"];
     }
+}
+
+- (void)setFromView:(UIView *)fromView
+{
+    [self stopObservingFromView];
     _fromView = fromView;
     [fromView.layer addObserver:self
                      forKeyPath:@"position"
