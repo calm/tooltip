@@ -491,7 +491,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     _fromView = fromView;
     [fromView.layer addObserver:self
                      forKeyPath:@"position"
-                        options:NSKeyValueObservingOptionNew
+                        options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
                         context:nil];
 }
 
@@ -504,7 +504,15 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         if (_attachedToView
             && object == self.fromView.layer)
         {
-            [self presentFromView:self.fromView inView:self.inView animated:NO];
+            NSValue *new = change[NSKeyValueChangeNewKey];
+            NSValue *old = change[NSKeyValueChangeOldKey];
+            CGRect newFrame = [new isKindOfClass:[NSNull class]] ? CGRectZero : [new CGRectValue];
+            CGRect oldFrame = [old isKindOfClass:[NSNull class]] ? CGRectZero : [old CGRectValue];
+            BOOL didChangePosition = (newFrame.origin.x != oldFrame.origin.x ||
+                                      newFrame.origin.y != oldFrame.origin.y);
+            if (didChangePosition) {
+                [self presentFromView:self.fromView inView:self.inView animated:NO];
+            }
         }
     } else {
         [super observeValueForKeyPath:keyPath
@@ -629,6 +637,8 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     } else {
         [self cleanupForDismissal];
     }
+
+    self.fromView = nil;
     
     if ([self.delegate respondsToSelector:@selector(tooltipDidDismiss:)]) {
         [self.delegate tooltipDidDismiss:self];
