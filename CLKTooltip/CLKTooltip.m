@@ -629,6 +629,8 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     } else {
         [self cleanupForDismissal];
     }
+
+    self.fromView = nil;
     
     if ([self.delegate respondsToSelector:@selector(tooltipDidDismiss:)]) {
         [self.delegate tooltipDidDismiss:self];
