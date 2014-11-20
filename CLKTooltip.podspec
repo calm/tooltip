@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "CLKTooltip"
-  s.version      = "0.0.1"
+  s.version      = "1.0.0"
   s.summary      = "A tooltip that does all the right things"
   s.homepage     = "http://www.clinkle.com"
   s.license      = "MIT"
