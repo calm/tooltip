@@ -75,7 +75,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
 {
     self = [self init];
     if (self) {
-        containerView = containerView ?: [UIApplication sharedApplication].windows[0];
+        containerView = containerView ?: [[UIApplication sharedApplication].windows firstObject];
         CGSize maxLabelSize = [[self class] maximumContentViewSizeInView:containerView
                                                              withPadding:padding
                                                                andMargin:margin];
