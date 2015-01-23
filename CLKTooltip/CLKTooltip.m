@@ -141,13 +141,13 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     if ([self.delegate respondsToSelector:@selector(tooltipWillBeTapped:)]) {
         [self.delegate tooltipWillBeTapped:self];
     }
+
+    if ([self.delegate respondsToSelector:@selector(tooltipWasTapped:)]) {
+        [self.delegate tooltipWasTapped:self];
+    }
     
     if (_dismissesOnTap) {
         [self dismiss];
-    }
-    
-    if ([self.delegate respondsToSelector:@selector(tooltipWasTapped:)]) {
-        [self.delegate tooltipWasTapped:self];
     }
 }
 
