@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.license      = "MIT"
   s.author       = { "Clinkle" => "tyler@clinkle.com" }
   s.platform     = :ios, "7.0"
-  s.source       = { :git => "https://github.com/Clinkle/CLKTooltip.git", :tag => s.version.to_s }
+  s.source       = { :git => "https://github.com/tsheaff/CLKTooltip.git", :tag => s.version.to_s }
   s.source_files = "CLKTooltip/*.{h,m}"
   s.exclude_files = "Classes/Exclude"
   s.requires_arc = true
