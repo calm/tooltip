@@ -1,23 +1,23 @@
-# CLKTooltip
+# SexyTooltip
 
 A tooltip library that does all the right things.
 
 ## Installation
 
-Add `pod 'CLKTooltip'` to your `Podfile` or download the source [here](https://github.com/Clinkle/CLKTooltip)
+Add `pod 'SexyTooltip'` to your `Podfile` or download the source [here](https://github.com/Clinkle/SexyTooltip)
 
 ## Creation
 
 The default initializer is to give the tooltip a content view which will be contained within the tooltip.
 
 ```objc
-CLKTooltip *errorTooltip = [[CLKTooltip alloc] initWithContentView:self.errorLabel];
+SexyTooltip *errorTooltip = [[SexyTooltip alloc] initWithContentView:self.errorLabel];
 ```
 
-`CLKTooltip` can also be created with an `NSAttributedString`, which will create a UILabel and as the tooltip's view.
+`SexyTooltip` can also be created with an `NSAttributedString`, which will create a UILabel and as the tooltip's view.
 
 ```objc
-CLKTooltip *greetingsTooltip = [[CLKTooltip alloc] initWithAttributedString:greetingsText
+SexyTooltip *greetingsTooltip = [[SexyTooltip alloc] initWithAttributedString:greetingsText
                                                                 sizedToView:self.view
                                                                 withPadding:UIEdgeInsetsMake(10, 5, 10, 5)
                                                                   andMargin:UIEdgeInsetsMake(20, 20, 20, 20)];
@@ -26,7 +26,7 @@ CLKTooltip *greetingsTooltip = [[CLKTooltip alloc] initWithAttributedString:gree
 
 ## Presentation
 
-The true beauty of CLKTooltip comes when you wich to present one.  No more dealing with nexted CGRect logic and scrollview offsets.  Just pass the view that you want the tooltip to point at, and even as that view moves the CLKTooltip will continue pointing at the `fromView`
+The true beauty of SexyTooltip comes when you wich to present one.  No more dealing with nexted CGRect logic and scrollview offsets.  Just pass the view that you want the tooltip to point at, and even as that view moves the SexyTooltip will continue pointing at the `fromView`
 
 ```objc
 [greetingsTooltip presentFromView:self.loginButton
@@ -51,14 +51,14 @@ The default is a nice sexy white with a subtle shadow and curved corners.  You c
 
 ## Arrow direction
 
-You can specify an array of `permittedArrowDirections` which specify the preference order of pointing directions.  The tooltip will attempt to fit itself inside the `inView` you passed while maintaining the arrow pointing at the target view or point.  For example, if you're pointing at a view that's moving around the screen, CLKTooltip will continue to be visible as the view moves to the edges by changing its direction in order to stay within the bounds of the `inView`.  This is very powerful for complex tooltip scenarios or cases where you're not sure how the interface might look at the moment of presentation (e.g. variable text sizes etc.)
+You can specify an array of `permittedArrowDirections` which specify the preference order of pointing directions.  The tooltip will attempt to fit itself inside the `inView` you passed while maintaining the arrow pointing at the target view or point.  For example, if you're pointing at a view that's moving around the screen, SexyTooltip will continue to be visible as the view moves to the edges by changing its direction in order to stay within the bounds of the `inView`.  This is very powerful for complex tooltip scenarios or cases where you're not sure how the interface might look at the moment of presentation (e.g. variable text sizes etc.)
 
 ```objc
-typedef NS_ENUM(NSUInteger, CLKTooltipArrowDirection) {
-    CLKTooltipArrowDirectionUp,
-    CLKTooltipArrowDirectionDown,
-    CLKTooltipArrowDirectionLeft,
-    CLKTooltipArrowDirectionRight
+typedef NS_ENUM(NSUInteger, SexyTooltipArrowDirection) {
+    SexyTooltipArrowDirectionUp,
+    SexyTooltipArrowDirectionDown,
+    SexyTooltipArrowDirectionLeft,
+    SexyTooltipArrowDirectionRight
 };
 ```
 
@@ -67,13 +67,13 @@ typedef NS_ENUM(NSUInteger, CLKTooltipArrowDirection) {
 You can optionally hear about any of the following events as the delegate of your tooltip
 
 ```objc
-@protocol CLKTooltipDelegate <NSObject>
+@protocol SexyTooltipDelegate <NSObject>
 
 @optional
-- (void)tooltipDidPresent:(CLKTooltip *)tooltip;
-- (void)tooltipDidDismiss:(CLKTooltip *)tooltip;
-- (void)tooltipWillBeTapped:(CLKTooltip *)tooltip;
-- (void)tooltipWasTapped:(CLKTooltip *)tooltip;
+- (void)tooltipDidPresent:(SexyTooltip *)tooltip;
+- (void)tooltipDidDismiss:(SexyTooltip *)tooltip;
+- (void)tooltipWillBeTapped:(SexyTooltip *)tooltip;
+- (void)tooltipWasTapped:(SexyTooltip *)tooltip;
 
 @end
 ```

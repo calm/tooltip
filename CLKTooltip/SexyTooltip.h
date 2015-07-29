@@ -1,6 +1,6 @@
 //
-//  CLKTooltip.h
-//  CLKTooltip
+//  SexyTooltip.h
+//  SexyTooltip
 //
 //  Created by JP McGlone on 10/21/14.
 //  Copyright (c) 2014 Clinkle. All rights reserved.
@@ -12,8 +12,8 @@
  * EXAMPLE:
  *
  * // Setup tooltip
- * CLKTooltip *tooltip = [[CLKTooltip alloc] initWithView:self.instructionsView];
- * tooltip.permittedArrowDirections = @[@(CLKTooltipArrowDirectionDown), @(CLKTooltipArrowDirectionUp)];
+ * SexyTooltip *tooltip = [[SexyTooltip alloc] initWithView:self.instructionsView];
+ * tooltip.permittedArrowDirections = @[@(SexyTooltipArrowDirectionDown), @(SexyTooltipArrowDirectionUp)];
  *
  * // Present tooltip
  * [tooltip presentFromView:self.textField withMargin:5];
@@ -23,31 +23,31 @@
 
 #import <UIKit/UIKit.h>
 
-#define kCLKTooltipDismissDurationExpand 0.1
-#define kCLKTooltipDismissDurationShrink 0.15
-#define kCLKTooltipDismissDurationTotal (kCLKTooltipDismissDurationExpand + kCLKTooltipDismissDurationExpand)
+#define kSexyTooltipDismissDurationExpand 0.1
+#define kSexyTooltipDismissDurationShrink 0.15
+#define kSexyTooltipDismissDurationTotal (kSexyTooltipDismissDurationExpand + kSexyTooltipDismissDurationExpand)
 
-@class CLKTooltip;
-@protocol CLKTooltipDelegate <NSObject>
+@class SexyTooltip;
+@protocol SexyTooltipDelegate <NSObject>
 
 @optional
-- (void)tooltipDidPresent:(CLKTooltip *)tooltip;
-- (void)tooltipDidDismiss:(CLKTooltip *)tooltip;
-- (void)tooltipWillBeTapped:(CLKTooltip *)tooltip;
-- (void)tooltipWasTapped:(CLKTooltip *)tooltip;
+- (void)tooltipDidPresent:(SexyTooltip *)tooltip;
+- (void)tooltipDidDismiss:(SexyTooltip *)tooltip;
+- (void)tooltipWillBeTapped:(SexyTooltip *)tooltip;
+- (void)tooltipWasTapped:(SexyTooltip *)tooltip;
 
 @end
 
-typedef NS_ENUM(NSUInteger, CLKTooltipArrowDirection) {
-    CLKTooltipArrowDirectionUp,
-    CLKTooltipArrowDirectionDown,
-    CLKTooltipArrowDirectionLeft,
-    CLKTooltipArrowDirectionRight
+typedef NS_ENUM(NSUInteger, SexyTooltipArrowDirection) {
+    SexyTooltipArrowDirectionUp,
+    SexyTooltipArrowDirectionDown,
+    SexyTooltipArrowDirectionLeft,
+    SexyTooltipArrowDirectionRight
 };
 
-@interface CLKTooltip : UIView
+@interface SexyTooltip : UIView
 
-@property (nonatomic, weak) id<CLKTooltipDelegate> delegate;
+@property (nonatomic, weak) id<SexyTooltipDelegate> delegate;
 
 @property (nonatomic, strong) UIView *contentView; // the content to display in the tooltip, e.g. UILabel
 @property (nonatomic, readonly) BOOL isShowing;
