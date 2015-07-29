@@ -13,8 +13,10 @@ const static UIEdgeInsets defaultPadding = {18, 24, 18, 24};
 const static UIEdgeInsets defaultMargin = {10, 10, 10, 10};
 
 @interface CLKTooltip ()
-@property (nonatomic, strong) UIView *fromView; // from view
-@property (nonatomic, weak) UIView *inView; // in view
+@property (nonatomic, strong) UIView *fromView;
+@property (nonatomic, weak) UIView *inView;
+
+@property (nonatomic, assign) BOOL isAnimating;
 
 @end
 
@@ -26,9 +28,7 @@ const static UIEdgeInsets defaultMargin = {10, 10, 10, 10};
     
     CLKTooltipArrowDirection _arrowDirection;
     CGFloat _arrowOffset;
-    
-    BOOL _isAnimating;
-    
+
     NSTimer *_dismissTimer;
 }
 
@@ -75,7 +75,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
 {
     self = [self init];
     if (self) {
-        containerView = containerView ?: [UIApplication sharedApplication].windows[0];
+        containerView = containerView ?: [[UIApplication sharedApplication].windows firstObject];
         CGSize maxLabelSize = [[self class] maximumContentViewSizeInView:containerView
                                                              withPadding:padding
                                                                andMargin:margin];
@@ -141,13 +141,13 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     if ([self.delegate respondsToSelector:@selector(tooltipWillBeTapped:)]) {
         [self.delegate tooltipWillBeTapped:self];
     }
+
+    if ([self.delegate respondsToSelector:@selector(tooltipWasTapped:)]) {
+        [self.delegate tooltipWasTapped:self];
+    }
     
     if (_dismissesOnTap) {
         [self dismiss];
-    }
-    
-    if ([self.delegate respondsToSelector:@selector(tooltipWasTapped:)]) {
-        [self.delegate tooltipWasTapped:self];
     }
 }
 
@@ -413,7 +413,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
                  inView:(UIView *)view
                animated:(BOOL)animated
 {
-    if (_isAnimating) {
+    if (self.isAnimating) {
         [self.layer pop_removeAllAnimations];
         self.layer.transform = CATransform3DIdentity;
     }   
@@ -445,7 +445,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     [self updateShapeLayer];
     
     if (animated) {
-        _isAnimating = YES;
+        self.isAnimating = YES;
         self.layer.transform = CATransform3DMakeScale(0.1, 0.1, 1.0);
         
         POPSpringAnimation *springAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
@@ -453,7 +453,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         springAnimation.springBounciness = 7;;
         springAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1, 1)];
         springAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
-            _isAnimating = NO;
+            self.isAnimating = NO;
         };
         [self.layer pop_addAnimation:springAnimation forKey:@"size"];
     }
@@ -508,10 +508,20 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
             NSValue *old = change[NSKeyValueChangeOldKey];
             CGRect newFrame = [new isKindOfClass:[NSNull class]] ? CGRectZero : [new CGRectValue];
             CGRect oldFrame = [old isKindOfClass:[NSNull class]] ? CGRectZero : [old CGRectValue];
-            BOOL didChangePosition = (newFrame.origin.x != oldFrame.origin.x ||
-                                      newFrame.origin.y != oldFrame.origin.y);
+            CGFloat xDiff = (newFrame.origin.x - oldFrame.origin.x);
+            CGFloat yDiff = (newFrame.origin.y - oldFrame.origin.y);
+            BOOL didChangePosition = !(xDiff == 0 && yDiff == 0);
+
             if (didChangePosition) {
-                [self presentFromView:self.fromView inView:self.inView animated:NO];
+                if (self.isAnimating) {
+                    // do the transition in a "rudimentary" way
+                    CGRect newFrame = self.frame;
+                    newFrame.origin.x += xDiff;
+                    newFrame.origin.y += yDiff;
+                    self.frame = newFrame;
+                } else {
+                    [self presentFromNewPosition];
+                }
             }
         }
     } else {
@@ -520,6 +530,13 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
                                change:change
                               context:context];
     }
+}
+
+- (void)presentFromNewPosition
+{
+    [self presentFromView:self.fromView
+                   inView:self.inView
+                 animated:NO];
 }
 
 - (void)presentFromRect:(CGRect)rect inView:(UIView *)view
@@ -613,13 +630,13 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
 {
     [self cancelDismissTimer];
     
-    if (_isAnimating) {
+    if (self.isAnimating) {
         [self.layer pop_removeAllAnimations];
         self.layer.transform = CATransform3DIdentity;
     }
     _isShowing = NO;
     if (animated) {
-        _isAnimating = YES;
+        self.isAnimating = YES;
         POPBasicAnimation *expandAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
         expandAnimation.duration = kCLKTooltipDismissDurationExpand;
         expandAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.05, 1.05)];
@@ -629,7 +646,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
             shrinkAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(0.01, 0.01)];
             shrinkAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
                 [self cleanupForDismissal];
-                _isAnimating = NO;
+                self.isAnimating = NO;
             };
             [self.layer pop_addAnimation:shrinkAnimation forKey:@"size"];
         };
