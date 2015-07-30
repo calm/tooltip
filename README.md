@@ -2,7 +2,7 @@
 
 The tooltip that has all the right moves.
 
-It handles the gross complexity of view hierarchies and scroll view offsets.  You just tell it which view to point at it'll do the rest!  It'll even follow that view around the screen as it moves, re-shifting itself and its arrow to stay within the bounds of the window (or another superview you specify).  Highly configurable and super simple out-of-the-box.
+It handles the gross complexity of view hierarchies and scroll view offsets.  You just tell it which view to point at it'll do the rest!  It'll even follow that view around the screen as it moves, re-shifting itself and its arrow to stay within the bounds of the window (or another superview you specify).  Highly configurable yet super simple out-of-the-box.
 
 It's pretty sexy.
 
