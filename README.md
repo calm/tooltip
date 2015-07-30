@@ -6,6 +6,7 @@ It handles the gross complexity of view hierarchies and scroll view offsets.  Yo
 
 It's pretty sexy.
 
+![facebook example](http://i.imgur.com/jVe7xNl.gif)
 ![motion example](http://i.imgur.com/ON82WRl.gif)
 
 ## Installation
