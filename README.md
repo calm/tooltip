@@ -2,6 +2,8 @@
 
 A tooltip library that does all the right things.
 
+![facebook example](http://i.imgur.com/jVe7xNl.gif)
+
 ## Installation
 
 Add `pod 'SexyTooltip'` to your `Podfile` or download the source [here](https://github.com/Clinkle/SexyTooltip)
