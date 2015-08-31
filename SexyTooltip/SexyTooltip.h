@@ -75,7 +75,7 @@ typedef NS_ENUM(NSUInteger, SexyTooltipArrowDirection) {
 
 - (id)initWithContentView:(UIView *)contentView;
 
-- (id)initWithAttributedString:(NSAttributedString *)attrStr;
+- (id)initWithAttributedString:(NSAttributedString *)attrStr NS_EXTENSION_UNAVAILABLE_IOS("Not available in app extensions.");;
 - (id)initWithAttributedString:(NSAttributedString *)attrStr
                    sizedToView:(UIView *)containerView;
 - (id)initWithAttributedString:(NSAttributedString *)attrStr
