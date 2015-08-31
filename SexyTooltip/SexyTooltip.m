@@ -76,7 +76,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     self = [self init];
     if (self) {
 
-    	NSAssert(!containerView, @"Container view can not be nil.");
+    	NSAssert(containerView, @"Container view can not be nil.");
 
         CGSize maxLabelSize = [[self class] maximumContentViewSizeInView:containerView
                                                              withPadding:padding
