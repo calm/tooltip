@@ -54,7 +54,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
 - (id)initWithAttributedString:(NSAttributedString *)attrStr
 {
     return [self initWithAttributedString:attrStr
-                              sizedToView:nil
+                              sizedToView:[[UIApplication sharedApplication].windows firstObject]
                               withPadding:defaultPadding
                                 andMargin:defaultMargin];
 }
@@ -75,7 +75,9 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
 {
     self = [self init];
     if (self) {
-        containerView = containerView ?: [[UIApplication sharedApplication].windows firstObject];
+
+        NSAssert(containerView, @"Container view can not be nil.");
+
         CGSize maxLabelSize = [[self class] maximumContentViewSizeInView:containerView
                                                              withPadding:padding
                                                                andMargin:margin];
