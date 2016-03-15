@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SexyTooltip"
-  s.version      = "1.2.1"
+  s.version      = "1.2.2"
   s.summary      = "A tooltip that does all the right things"
   s.homepage     = "http://www.clinkle.com"
   s.license      = "MIT"
