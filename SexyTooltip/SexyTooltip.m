@@ -86,6 +86,9 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         label.numberOfLines = 0;
         [label sizeToFit];
         self.contentView = label;
+        
+        self.padding = padding;
+        self.margin = margin;
     }
     return self;
 }
