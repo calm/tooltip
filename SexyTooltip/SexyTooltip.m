@@ -89,6 +89,8 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         
         self.padding = padding;
         self.margin = margin;
+
+        self.scrollViewParentClipsToContentSize = YES;
     }
     return self;
 }
@@ -334,7 +336,9 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     CGRect bounds = view.bounds;
     if ([view isKindOfClass:[UIScrollView class]]) {
         bounds.origin = CGPointZero;
-        bounds.size = ((UIScrollView *)self.inView).contentSize;
+        if (self.scrollViewParentClipsToContentSize) {
+          bounds.size = ((UIScrollView *)self.inView).contentSize;
+        }
     }
     CGRect insetRect = CGRectFromEdgeInsets(bounds, _margin);
     

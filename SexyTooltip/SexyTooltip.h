@@ -51,6 +51,7 @@ typedef NS_ENUM(NSUInteger, SexyTooltipArrowDirection) {
 
 @property (nonatomic, strong) UIView *contentView; // the content to display in the tooltip, e.g. UILabel
 @property (nonatomic, readonly) BOOL isShowing;
+@property (nonatomic, assign) BOOL scrollViewParentClipsToContentSize;
 
 // Common configurations
 @property (nonatomic, copy) UIColor *color; // Defaults to white
