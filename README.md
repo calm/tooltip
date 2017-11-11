@@ -11,7 +11,7 @@ It's pretty sexy.
 
 ## Installation
 
-Add `pod 'SexyTooltip'` to your `Podfile` or download the source [here](https://github.com/calmcom/SexyTooltip)
+Add `pod 'SexyTooltip'` to your `Podfile` or download the source [here](https://github.com/calm/SexyTooltip/releases)
 
 ## Creation
 
