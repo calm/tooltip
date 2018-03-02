@@ -47,7 +47,7 @@ typedef NS_ENUM(NSUInteger, SexyTooltipArrowDirection) {
 
 @interface SexyTooltip : UIView
 
-@property (nonatomic, weak) id<SexyTooltipDelegate> delegate;
+@property (nonatomic, strong) id<SexyTooltipDelegate> delegate;
 
 @property (nonatomic, strong) UIView *contentView; // the content to display in the tooltip, e.g. UILabel
 @property (nonatomic, readonly) BOOL isShowing;
