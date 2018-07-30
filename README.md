@@ -44,6 +44,8 @@ The true beauty of SexyTooltip shines once you present it.  No more dealing with
 
 You can also present from a rect or point.
 
+If you use a `present` method that doesn't explicitly pass `inView`, the `fromView`'s direct superview will be used as the `inView`. The `inView`'s `bounds.size` must be larger (`width` and `height`) than the ultimate `bounds.size` of the tooltip, otherwise there will be no way to place the tooltip.
+
 ## Dismissal
 
 Dismissal is as easy as calling `-(void)dismiss;` which defaults to animated dismissal.  There's always `[self.tooltip dismissAnimated:NO];` if you want to suck all of the joy out of your app ;)
