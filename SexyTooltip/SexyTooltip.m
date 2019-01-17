@@ -130,7 +130,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         _padding = defaultPadding;
         _color = [UIColor whiteColor];
         _borderColor = [UIColor clearColor];
-        _cornerRadius = 2;
+        _cornerRadius = 12;
         _arrowMargin = 5;
         _dismissesOnTap = YES;
         _margin = defaultMargin;
@@ -708,8 +708,8 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     _hasShadow = hasShadow;
     self.layer.masksToBounds = NO;
     self.layer.shadowOffset = hasShadow ? CGSizeMake(0, 2) : CGSizeZero;
-    self.layer.shadowRadius = hasShadow ? 3 : 0;
-    self.layer.shadowOpacity = hasShadow ? 0.15 : 0;
+    self.layer.shadowRadius = hasShadow ? 8 : 0;
+    self.layer.shadowOpacity = hasShadow ? 0.33 : 0;
     self.layer.shadowColor = hasShadow ? [UIColor blackColor].CGColor : [UIColor clearColor].CGColor;
 }
 
@@ -732,7 +732,10 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
                            withPadding:(UIEdgeInsets)padding
                              andMargin:(UIEdgeInsets)margin
 {
-    CGRect sizeRect = CGRectFromEdgeInsets(view.bounds, padding);
+    CGSize limitedSize = CGSizeMake(0.80 * view.bounds.size.width, view.bounds.size.height);
+    CGRect limitedRect = CGRectMake(view.bounds.origin.x, view.bounds.origin.y, limitedSize.width, limitedSize.height);
+
+    CGRect sizeRect = CGRectFromEdgeInsets(limitedRect, padding);
     sizeRect = CGRectInset(sizeRect, margin.left, margin.right);
     return sizeRect.size;
 }
