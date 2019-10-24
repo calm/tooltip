@@ -515,18 +515,17 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         {
             NSValue *new = change[NSKeyValueChangeNewKey];
             NSValue *old = change[NSKeyValueChangeOldKey];
-            CGRect newFrame = [new isKindOfClass:[NSNull class]] ? CGRectZero : [new CGRectValue];
-            CGRect oldFrame = [old isKindOfClass:[NSNull class]] ? CGRectZero : [old CGRectValue];
-            CGFloat xDiff = (newFrame.origin.x - oldFrame.origin.x);
-            CGFloat yDiff = (newFrame.origin.y - oldFrame.origin.y);
-            BOOL didChangePosition = !(xDiff == 0 && yDiff == 0);
+            CGPoint newPoint = [new isKindOfClass:[NSNull class]] ? CGPointZero : [new CGPointValue];
+            CGPoint oldPoint = [old isKindOfClass:[NSNull class]] ? CGPointZero : [old CGPointValue];
+            CGPoint diff = CGPointMake(newPoint.x - oldPoint.x, newPoint.y - oldPoint.y);
+            BOOL didChangePosition = !CGPointEqualToPoint(diff, CGPointZero);
 
             if (didChangePosition) {
                 if (self.isAnimating) {
                     // do the transition in a "rudimentary" way
                     CGRect newFrame = self.frame;
-                    newFrame.origin.x += xDiff;
-                    newFrame.origin.y += yDiff;
+                    newFrame.origin.x += diff.x;
+                    newFrame.origin.y += diff.y;
                     self.frame = newFrame;
                 } else {
                     [self presentFromNewPosition];
