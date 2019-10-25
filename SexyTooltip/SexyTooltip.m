@@ -23,9 +23,9 @@ const static UIEdgeInsets defaultMargin = {10, 10, 10, 10};
 @implementation SexyTooltip
 {
     UIControl *_containerView;
-    
+
     CAShapeLayer *_shapeLayer;
-    
+
     SexyTooltipArrowDirection _arrowDirection;
     CGFloat _arrowOffset;
 
@@ -86,7 +86,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         label.numberOfLines = 0;
         [label sizeToFit];
         self.contentView = label;
-        
+
         self.padding = padding;
         self.margin = margin;
 
@@ -114,16 +114,16 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        
+
         _shapeLayer = [CAShapeLayer layer];
         [self.layer insertSublayer:_shapeLayer atIndex:0];
-        
+
         _containerView = [[UIControl alloc] init];
         [_containerView addTarget:self
                            action:@selector(didTap:)
                  forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_containerView];
-        
+
         // Defaults
         _arrowHeight = 5;
         _attachedToView = YES;
@@ -152,7 +152,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     if ([self.delegate respondsToSelector:@selector(tooltipWasTapped:)]) {
         [self.delegate tooltipWasTapped:self];
     }
-    
+
     if (_dismissesOnTap) {
         [self dismiss];
     }
@@ -163,12 +163,12 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     if (!_isShowing) {
         return;
     }
-    
+
     CGPoint anchorPoint = CGPointZero;
     CGRect bounds = self.bounds;
-    
+
     UIBezierPath *path = [UIBezierPath bezierPath];
-    
+
     CGFloat topInset = 0,
     rightInset =0,
     bottomInset =0,
@@ -187,13 +187,13 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         rightInset = _arrowHeight;
         arrowCenter = bounds.size.height * 0.5;
     }
-    
+
     // Adjust the arrowCenter from the set arrowOffset
     arrowCenter += _arrowOffset;
-    
+
     // Start to the right of top left arc
     [path moveToPoint:CGPointMake(_cornerRadius + leftInset, topInset)];
-    
+
     // Top Arrow
     if (_arrowDirection == SexyTooltipArrowDirectionUp) {
         [path addLineToPoint:CGPointMake(arrowCenter - _arrowHeight, topInset)];
@@ -201,14 +201,14 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         [path addLineToPoint:CGPointMake(arrowCenter + _arrowHeight, topInset)];
         anchorPoint = CGPointMake(arrowCenter / bounds.size.width, 0);
     }
-    
+
     // Top
     [path addLineToPoint:CGPointMake(bounds.size.width - _cornerRadius - rightInset, topInset)];
-    
+
     // Top right arc
     [path addArcWithCenter:CGPointMake(bounds.size.width - _cornerRadius - rightInset, _cornerRadius + topInset)
                     radius:_cornerRadius startAngle:3 * M_PI_2 endAngle:0 clockwise:YES];
-    
+
     // Right Arrow
     if (_arrowDirection == SexyTooltipArrowDirectionRight) {
         [path addLineToPoint:CGPointMake(CGRectGetMaxX(bounds) - rightInset, arrowCenter - _arrowHeight)];
@@ -216,14 +216,14 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         [path addLineToPoint:CGPointMake(CGRectGetMaxX(bounds) - rightInset, arrowCenter + _arrowHeight)];
         anchorPoint = CGPointMake(1, arrowCenter / bounds.size.height);
     }
-    
+
     // Right
     [path addLineToPoint:CGPointMake(bounds.size.width - rightInset, bounds.size.height - _cornerRadius - bottomInset)];
-    
+
     // Bottom right arc
     [path addArcWithCenter:CGPointMake(bounds.size.width - rightInset - _cornerRadius, bounds.size.height - _cornerRadius - bottomInset)
                     radius:_cornerRadius startAngle:0 endAngle:M_PI_2 clockwise:YES];
-    
+
     // Bottom Arrow
     if (_arrowDirection == SexyTooltipArrowDirectionDown) {
         [path addLineToPoint:CGPointMake(arrowCenter + _arrowHeight, bounds.size.height - bottomInset)];
@@ -231,14 +231,14 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         [path addLineToPoint:CGPointMake(arrowCenter - _arrowHeight, bounds.size.height - bottomInset)];
         anchorPoint = CGPointMake(arrowCenter / bounds.size.width, 1);
     }
-    
+
     // Bottom
     [path addLineToPoint:CGPointMake(_cornerRadius + leftInset, bounds.size.height - bottomInset)];
-    
+
     // Bottom left arc
     [path addArcWithCenter:CGPointMake(_cornerRadius + leftInset, bounds.size.height - _cornerRadius - bottomInset)
                     radius:_cornerRadius startAngle:M_PI_2 endAngle:M_PI clockwise:YES];
-    
+
     // Left arrow
     if (_arrowDirection == SexyTooltipArrowDirectionLeft) {
         [path addLineToPoint:CGPointMake(leftInset, arrowCenter + _arrowHeight)];
@@ -246,22 +246,22 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         [path addLineToPoint:CGPointMake(leftInset, arrowCenter - _arrowHeight)];
         anchorPoint = CGPointMake(0, arrowCenter / bounds.size.height);
     }
-    
+
     // Left
     [path addLineToPoint:CGPointMake(leftInset, _cornerRadius + topInset)];
-    
+
     // Top left arc
     [path addArcWithCenter:CGPointMake(_cornerRadius + leftInset, _cornerRadius + topInset)
                     radius:_cornerRadius startAngle:M_PI endAngle:3 * M_PI_2 clockwise:YES];
-    
+
     [path closePath];
-    
+
     //apply path to shapelayer
     _shapeLayer.path = path.CGPath;
     [_shapeLayer setFillColor:_color.CGColor];
     [_shapeLayer setStrokeColor:_borderColor.CGColor];
     _shapeLayer.frame = CGRectMake(0, 0, 100, 30);
-    
+
     [self setFrameAnchorPoint:anchorPoint];
 }
 
@@ -269,18 +269,18 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
 {
     CGPoint newPoint = CGPointMake(self.bounds.size.width * anchorPoint.x, self.bounds.size.height * anchorPoint.y);
     CGPoint oldPoint = CGPointMake(self.bounds.size.width * self.layer.anchorPoint.x, self.bounds.size.height * self.layer.anchorPoint.y);
-    
+
     newPoint = CGPointApplyAffineTransform(newPoint, self.transform);
     oldPoint = CGPointApplyAffineTransform(oldPoint, self.transform);
-    
+
     CGPoint position = self.layer.position;
-    
+
     position.x -= oldPoint.x;
     position.x += newPoint.x;
-    
+
     position.y -= oldPoint.y;
     position.y += newPoint.y;
-    
+
     self.layer.position = position;
     self.layer.anchorPoint = anchorPoint;
 }
@@ -313,10 +313,10 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     } else {
         size.width += _arrowHeight;
     }
-    
+
     CGRect frame = CGRectZero;
     frame.size = size;
-    
+
     // Position the tooltip to the correct side such that the arrow points at the middle, ignoring view's bounds for now
     if (arrowDirection == SexyTooltipArrowDirectionDown) {
         frame.origin = CGPointMake(CGRectGetMidX(rect) - (size.width * 0.5), rect.origin.y - size.height);
@@ -331,7 +331,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         frame.origin = CGPointMake(rect.origin.x - size.width, CGRectGetMidY(rect) - (size.height * 0.5));
         containerViewFrame.origin = CGPointMake(0, 0);
     }
-    
+
     // If it already fits, just finish here
     CGRect bounds = view.bounds;
     if ([view isKindOfClass:[UIScrollView class]]) {
@@ -341,14 +341,14 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         }
     }
     CGRect insetRect = CGRectFromEdgeInsets(bounds, _margin);
-    
+
     // Sometimes the first time through, NONE of the permitted arrow directions will work. In that case, get rid of the margin
     // by making it infinite.
     if (force && (self.bounds.size.width == 0 || self.bounds.size.height == 0)) {
         insetRect = CGRectInset(bounds, -CGFLOAT_MAX, -CGFLOAT_MAX);
         NSLog(@"Tooltip couldn't fit with any of the permitted arrow directions, removing margin and using highest priority arrow direction");
     }
-    
+
     if (CGRectContainsRect(insetRect, frame)) {
         _arrowOffset = 0;
         self.frame = frame;
@@ -356,7 +356,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         return YES;
     } else {
         CGRect originalFrame = frame;
-        
+
         // Otherwise, make it fit the best we can
         if (arrowDirection == SexyTooltipArrowDirectionDown || arrowDirection == SexyTooltipArrowDirectionUp) {
             if (CGRectGetMinX(frame) <= CGRectGetMinX(insetRect)) {
@@ -373,7 +373,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
                 frame.origin.y = CGRectGetMaxY(view.bounds) - frame.size.height - _margin.bottom;
             }
         }
-        
+
         if (CGRectContainsRect(insetRect, frame)) {
             BOOL good = NO;
             CGFloat mid;
@@ -389,7 +389,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
                     _arrowOffset = originalFrame.origin.y - frame.origin.y;
                     break;
             }
-            
+
             CGFloat max = mid - _cornerRadius - _arrowHeight;
             CGFloat min = -mid + _cornerRadius + _arrowHeight;
             if (_arrowOffset < min) {
@@ -399,14 +399,14 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
             } else {
                 good = YES;
             }
-            
+
             if (good) {
                 self.frame = frame;
                 _containerView.frame = containerViewFrame;
                 return YES;
             }
         }
-        
+
         // If it still doesn't fit, and we're forcing it, center the contents in the superview, so we can see most of the tooltip's contens
         if (force) {
             self.frame = originalFrame;
@@ -425,11 +425,11 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     if (self.isAnimating) {
         [self.layer pop_removeAllAnimations];
         self.layer.transform = CATransform3DIdentity;
-    }   
+    }
     [view addSubview:self];
-    
+
     [self resizeContainerViewToContentSizeWithPadding];
-    
+
     BOOL good = NO;
     for (NSNumber *permittedArrowDirection in _permittedArrowDirections) {
         SexyTooltipArrowDirection arrowDirection = [permittedArrowDirection integerValue];
@@ -439,7 +439,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
             break;
         }
     }
-    
+
     if (!good) {
         SexyTooltipArrowDirection arrowDirection;
         if (_isShowing || _permittedArrowDirections.count == 0) {
@@ -449,14 +449,14 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         }
         [self positionTooltipForArrowDirection:arrowDirection aroundRect:rect inView:view force:YES];
     }
-    
+
     _isShowing = YES;
     [self updateShapeLayer];
-    
+
     if (animated) {
         self.isAnimating = YES;
         self.layer.transform = CATransform3DMakeScale(0.1, 0.1, 1.0);
-        
+
         POPSpringAnimation *springAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
         springAnimation.springSpeed = 14;
         springAnimation.springBounciness = 7;;
@@ -466,7 +466,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         };
         [self.layer pop_addAnimation:springAnimation forKey:@"size"];
     }
-    
+
     if ([self.delegate respondsToSelector:@selector(tooltipDidPresent:)]) {
         [self.delegate tooltipDidPresent:self];
     }
@@ -475,14 +475,14 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
 - (void)setContentView:(UIView *)contentView
 {
     [_contentView removeFromSuperview];
-    
+
     _contentView = contentView;
     CGRect contentViewBounds = _contentView.bounds;
     contentViewBounds.size.width += _padding.left + _padding.right;
     contentViewBounds.size.height += _padding.top + _padding.bottom;
     _containerView.frame = contentViewBounds;
     [_containerView addSubview:_contentView];
-    
+
     [self resizeContainerViewToContentSizeWithPadding];
     [self updateShapeLayer];
 }
@@ -515,18 +515,17 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         {
             NSValue *new = change[NSKeyValueChangeNewKey];
             NSValue *old = change[NSKeyValueChangeOldKey];
-            CGRect newFrame = [new isKindOfClass:[NSNull class]] ? CGRectZero : [new CGRectValue];
-            CGRect oldFrame = [old isKindOfClass:[NSNull class]] ? CGRectZero : [old CGRectValue];
-            CGFloat xDiff = (newFrame.origin.x - oldFrame.origin.x);
-            CGFloat yDiff = (newFrame.origin.y - oldFrame.origin.y);
-            BOOL didChangePosition = !(xDiff == 0 && yDiff == 0);
+            CGPoint newPoint = [new isKindOfClass:[NSNull class]] ? CGPointZero : [new CGPointValue];
+            CGPoint oldPoint = [old isKindOfClass:[NSNull class]] ? CGPointZero : [old CGPointValue];
+            CGPoint diff = CGPointMake(newPoint.x - oldPoint.x, newPoint.y - oldPoint.y);
+            BOOL didChangePosition = !CGPointEqualToPoint(diff, CGPointZero);
 
             if (didChangePosition) {
                 if (self.isAnimating) {
                     // do the transition in a "rudimentary" way
                     CGRect newFrame = self.frame;
-                    newFrame.origin.x += xDiff;
-                    newFrame.origin.y += yDiff;
+                    newFrame.origin.x += diff.x;
+                    newFrame.origin.y += diff.y;
                     self.frame = newFrame;
                 } else {
                     [self presentFromNewPosition];
@@ -638,7 +637,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
 - (void)dismissAnimated:(BOOL)animated
 {
     [self cancelDismissTimer];
-    
+
     if (self.isAnimating) {
         [self.layer pop_removeAllAnimations];
         self.layer.transform = CATransform3DIdentity;
@@ -665,7 +664,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     }
 
     self.fromView = nil;
-    
+
     if ([self.delegate respondsToSelector:@selector(tooltipDidDismiss:)]) {
         [self.delegate tooltipDidDismiss:self];
     }
