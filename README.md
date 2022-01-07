@@ -1,10 +1,8 @@
-# SexyTooltip
+# DEPRECATED
 
 The tooltip that has all the right moves.
 
 It handles the gross complexity of view hierarchies and scroll view offsets.  You just tell it which view to point at it'll do the rest!  It'll even follow that view around the screen as it moves, re-shifting itself and its arrow to stay within the bounds of the window (or another superview you specify).  Highly configurable yet super simple out-of-the-box.
-
-It's pretty sexy.
 
 ![facebook example](http://i.imgur.com/jVe7xNl.gif)
 ![motion example](http://i.imgur.com/ON82WRl.gif)
@@ -56,7 +54,7 @@ Your tooltip will also be dismissed when it is tapped.
 
 ## Appearance
 
-The default is a nice sexy white with a subtle shadow and curved corners.  You can change everything from `hasShadow` to `arrowMargin` to `borderColor` to `padding` to `arrowHeight` etc.  All of these methods will maintain where your tooltip is currently pointing if they're called while it's showing.
+The default is a nice white with a subtle shadow and curved corners.  You can change everything from `hasShadow` to `arrowMargin` to `borderColor` to `padding` to `arrowHeight` etc.  All of these methods will maintain where your tooltip is currently pointing if they're called while it's showing.
 
 ## Arrow direction
 
