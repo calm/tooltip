@@ -1,6 +1,6 @@
 //
-//  SexyTooltip.h
-//  SexyTooltip
+//  CalmTooltip.h
+//  CalmTooltip
 //
 //  Created by JP McGlone on 10/21/14.
 //  Copyright (c) 2014 Clinkle. All rights reserved.
@@ -12,8 +12,8 @@
  * EXAMPLE:
  *
  * // Setup tooltip
- * SexyTooltip *tooltip = [[SexyTooltip alloc] initWithView:self.instructionsView];
- * tooltip.permittedArrowDirections = @[@(SexyTooltipArrowDirectionDown), @(SexyTooltipArrowDirectionUp)];
+ * CalmTooltip *tooltip = [[CalmTooltip alloc] initWithView:self.instructionsView];
+ * tooltip.permittedArrowDirections = @[@(CalmTooltipArrowDirectionDown), @(CalmTooltipArrowDirectionUp)];
  *
  * // Present tooltip
  * [tooltip presentFromView:self.textField withMargin:5];
@@ -23,31 +23,31 @@
 
 #import <UIKit/UIKit.h>
 
-#define kSexyTooltipDismissDurationExpand 0.1
-#define kSexyTooltipDismissDurationShrink 0.15
-#define kSexyTooltipDismissDurationTotal (kSexyTooltipDismissDurationExpand + kSexyTooltipDismissDurationExpand)
+#define kCalmTooltipDismissDurationExpand 0.1
+#define kCalmTooltipDismissDurationShrink 0.15
+#define kCalmTooltipDismissDurationTotal (kCalmTooltipDismissDurationExpand + kCalmTooltipDismissDurationExpand)
 
-@class SexyTooltip;
-@protocol SexyTooltipDelegate <NSObject>
+@class CalmTooltip;
+@protocol CalmTooltipDelegate <NSObject>
 
 @optional
-- (void)tooltipDidPresent:(SexyTooltip *)tooltip;
-- (void)tooltipDidDismiss:(SexyTooltip *)tooltip;
-- (void)tooltipWillBeTapped:(SexyTooltip *)tooltip;
-- (void)tooltipWasTapped:(SexyTooltip *)tooltip;
+- (void)tooltipDidPresent:(CalmTooltip *)tooltip;
+- (void)tooltipDidDismiss:(CalmTooltip *)tooltip;
+- (void)tooltipWillBeTapped:(CalmTooltip *)tooltip;
+- (void)tooltipWasTapped:(CalmTooltip *)tooltip;
 
 @end
 
-typedef NS_ENUM(NSUInteger, SexyTooltipArrowDirection) {
-    SexyTooltipArrowDirectionUp,
-    SexyTooltipArrowDirectionDown,
-    SexyTooltipArrowDirectionLeft,
-    SexyTooltipArrowDirectionRight
+typedef NS_ENUM(NSUInteger, CalmTooltipArrowDirection) {
+    CalmTooltipArrowDirectionUp,
+    CalmTooltipArrowDirectionDown,
+    CalmTooltipArrowDirectionLeft,
+    CalmTooltipArrowDirectionRight
 };
 
-@interface SexyTooltip : UIView
+@interface CalmTooltip : UIView
 
-@property (nonatomic, weak) id<SexyTooltipDelegate> delegate;
+@property (nonatomic, weak) id<CalmTooltipDelegate> delegate;
 
 @property (nonatomic, strong) UIView *contentView; // the content to display in the tooltip, e.g. UILabel
 @property (nonatomic, readonly) BOOL isShowing;

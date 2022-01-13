@@ -1,18 +1,18 @@
 //
-//  SexyTooltip.h
-//  SexyTooltip
+//  CalmTooltip.m
+//  CalmTooltip
 //
 //  Created by JP McGlone on 10/21/14.
 //  Copyright (c) 2014 Clinkle. All rights reserved.
 //
 
-#import "SexyTooltip.h"
+#import "CalmTooltip.h"
 #import <pop/POP.h>
 
 const static UIEdgeInsets defaultPadding = {18, 24, 18, 24};
 const static UIEdgeInsets defaultMargin = {10, 10, 10, 10};
 
-@interface SexyTooltip ()
+@interface CalmTooltip ()
 @property (nonatomic, strong) UIView *fromView;
 @property (nonatomic, weak) UIView *inView;
 
@@ -20,13 +20,13 @@ const static UIEdgeInsets defaultMargin = {10, 10, 10, 10};
 
 @end
 
-@implementation SexyTooltip
+@implementation CalmTooltip
 {
     UIControl *_containerView;
 
     CAShapeLayer *_shapeLayer;
 
-    SexyTooltipArrowDirection _arrowDirection;
+    CalmTooltipArrowDirection _arrowDirection;
     CGFloat _arrowOffset;
 
     NSTimer *_dismissTimer;
@@ -134,11 +134,11 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         _arrowMargin = 5;
         _dismissesOnTap = YES;
         _margin = defaultMargin;
-        _permittedArrowDirections = @[@(SexyTooltipArrowDirectionDown),
-                                      @(SexyTooltipArrowDirectionUp),
-                                      @(SexyTooltipArrowDirectionRight),
-                                      @(SexyTooltipArrowDirectionLeft)];
-        _arrowDirection = SexyTooltipArrowDirectionDown;
+        _permittedArrowDirections = @[@(CalmTooltipArrowDirectionDown),
+                                      @(CalmTooltipArrowDirectionUp),
+                                      @(CalmTooltipArrowDirectionRight),
+                                      @(CalmTooltipArrowDirectionLeft)];
+        _arrowDirection = CalmTooltipArrowDirectionDown;
     }
     return self;
 }
@@ -174,16 +174,16 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     bottomInset =0,
     leftInset = 0;
     CGFloat arrowCenter = 0;
-    if (_arrowDirection == SexyTooltipArrowDirectionDown) {
+    if (_arrowDirection == CalmTooltipArrowDirectionDown) {
         bottomInset = _arrowHeight;
         arrowCenter = bounds.size.width * 0.5;
-    } else if (_arrowDirection == SexyTooltipArrowDirectionUp) {
+    } else if (_arrowDirection == CalmTooltipArrowDirectionUp) {
         topInset = _arrowHeight;
         arrowCenter = bounds.size.width * 0.5;
-    } else if (_arrowDirection == SexyTooltipArrowDirectionLeft) {
+    } else if (_arrowDirection == CalmTooltipArrowDirectionLeft) {
         leftInset = _arrowHeight;
         arrowCenter = bounds.size.height * 0.5;
-    } else if (_arrowDirection == SexyTooltipArrowDirectionRight) {
+    } else if (_arrowDirection == CalmTooltipArrowDirectionRight) {
         rightInset = _arrowHeight;
         arrowCenter = bounds.size.height * 0.5;
     }
@@ -195,7 +195,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     [path moveToPoint:CGPointMake(_cornerRadius + leftInset, topInset)];
 
     // Top Arrow
-    if (_arrowDirection == SexyTooltipArrowDirectionUp) {
+    if (_arrowDirection == CalmTooltipArrowDirectionUp) {
         [path addLineToPoint:CGPointMake(arrowCenter - _arrowHeight, topInset)];
         [path addLineToPoint:CGPointMake(arrowCenter, 0)];
         [path addLineToPoint:CGPointMake(arrowCenter + _arrowHeight, topInset)];
@@ -210,7 +210,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
                     radius:_cornerRadius startAngle:3 * M_PI_2 endAngle:0 clockwise:YES];
 
     // Right Arrow
-    if (_arrowDirection == SexyTooltipArrowDirectionRight) {
+    if (_arrowDirection == CalmTooltipArrowDirectionRight) {
         [path addLineToPoint:CGPointMake(CGRectGetMaxX(bounds) - rightInset, arrowCenter - _arrowHeight)];
         [path addLineToPoint:CGPointMake(CGRectGetMaxX(bounds), arrowCenter)];
         [path addLineToPoint:CGPointMake(CGRectGetMaxX(bounds) - rightInset, arrowCenter + _arrowHeight)];
@@ -225,7 +225,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
                     radius:_cornerRadius startAngle:0 endAngle:M_PI_2 clockwise:YES];
 
     // Bottom Arrow
-    if (_arrowDirection == SexyTooltipArrowDirectionDown) {
+    if (_arrowDirection == CalmTooltipArrowDirectionDown) {
         [path addLineToPoint:CGPointMake(arrowCenter + _arrowHeight, bounds.size.height - bottomInset)];
         [path addLineToPoint:CGPointMake(arrowCenter, bounds.size.height)];
         [path addLineToPoint:CGPointMake(arrowCenter - _arrowHeight, bounds.size.height - bottomInset)];
@@ -240,7 +240,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
                     radius:_cornerRadius startAngle:M_PI_2 endAngle:M_PI clockwise:YES];
 
     // Left arrow
-    if (_arrowDirection == SexyTooltipArrowDirectionLeft) {
+    if (_arrowDirection == CalmTooltipArrowDirectionLeft) {
         [path addLineToPoint:CGPointMake(leftInset, arrowCenter + _arrowHeight)];
         [path addLineToPoint:CGPointMake(0, arrowCenter)];
         [path addLineToPoint:CGPointMake(leftInset, arrowCenter - _arrowHeight)];
@@ -301,14 +301,14 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
                                       );
 }
 
-- (BOOL)positionTooltipForArrowDirection:(SexyTooltipArrowDirection)arrowDirection
+- (BOOL)positionTooltipForArrowDirection:(CalmTooltipArrowDirection)arrowDirection
                               aroundRect:(CGRect)rect
                                   inView:(UIView *)view
                                    force:(BOOL)force
 {
     CGRect containerViewFrame = _containerView.frame;
     CGSize size = _containerView.bounds.size;
-    if (arrowDirection == SexyTooltipArrowDirectionUp || arrowDirection == SexyTooltipArrowDirectionDown) {
+    if (arrowDirection == CalmTooltipArrowDirectionUp || arrowDirection == CalmTooltipArrowDirectionDown) {
         size.height += _arrowHeight;
     } else {
         size.width += _arrowHeight;
@@ -318,16 +318,16 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     frame.size = size;
 
     // Position the tooltip to the correct side such that the arrow points at the middle, ignoring view's bounds for now
-    if (arrowDirection == SexyTooltipArrowDirectionDown) {
+    if (arrowDirection == CalmTooltipArrowDirectionDown) {
         frame.origin = CGPointMake(CGRectGetMidX(rect) - (size.width * 0.5), rect.origin.y - size.height);
         containerViewFrame.origin = CGPointMake(0, 0);
-    } else if (arrowDirection == SexyTooltipArrowDirectionUp) {
+    } else if (arrowDirection == CalmTooltipArrowDirectionUp) {
         frame.origin = CGPointMake(CGRectGetMidX(rect) - (size.width * 0.5), CGRectGetMaxY(rect));
         containerViewFrame.origin = CGPointMake(0, _arrowHeight);
-    } else if (arrowDirection == SexyTooltipArrowDirectionLeft) {
+    } else if (arrowDirection == CalmTooltipArrowDirectionLeft) {
         frame.origin = CGPointMake(CGRectGetMaxX(rect), CGRectGetMidY(rect) - (size.height * 0.5));
         containerViewFrame.origin = CGPointMake(_arrowHeight, 0);
-    } else if (arrowDirection == SexyTooltipArrowDirectionRight) {
+    } else if (arrowDirection == CalmTooltipArrowDirectionRight) {
         frame.origin = CGPointMake(rect.origin.x - size.width, CGRectGetMidY(rect) - (size.height * 0.5));
         containerViewFrame.origin = CGPointMake(0, 0);
     }
@@ -358,14 +358,14 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
         CGRect originalFrame = frame;
 
         // Otherwise, make it fit the best we can
-        if (arrowDirection == SexyTooltipArrowDirectionDown || arrowDirection == SexyTooltipArrowDirectionUp) {
+        if (arrowDirection == CalmTooltipArrowDirectionDown || arrowDirection == CalmTooltipArrowDirectionUp) {
             if (CGRectGetMinX(frame) <= CGRectGetMinX(insetRect)) {
                 frame.origin.x = _margin.left;
             }
             if (CGRectGetMaxX(frame) >= CGRectGetMaxX(insetRect)) {
                 frame.origin.x = CGRectGetMaxX(view.bounds) - frame.size.width - _margin.right;
             }
-        } else if (arrowDirection == SexyTooltipArrowDirectionLeft || arrowDirection == SexyTooltipArrowDirectionRight) {
+        } else if (arrowDirection == CalmTooltipArrowDirectionLeft || arrowDirection == CalmTooltipArrowDirectionRight) {
             if (CGRectGetMinY(frame) <= CGRectGetMinY(insetRect)) {
                 frame.origin.y = _margin.top;
             }
@@ -378,13 +378,13 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
             BOOL good = NO;
             CGFloat mid;
             switch (arrowDirection) {
-                case SexyTooltipArrowDirectionDown:
-                case SexyTooltipArrowDirectionUp:
+                case CalmTooltipArrowDirectionDown:
+                case CalmTooltipArrowDirectionUp:
                     mid = frame.size.width * 0.5;
                     _arrowOffset = originalFrame.origin.x - frame.origin.x;
                     break;
-                case SexyTooltipArrowDirectionRight:
-                case SexyTooltipArrowDirectionLeft:
+                case CalmTooltipArrowDirectionRight:
+                case CalmTooltipArrowDirectionLeft:
                     mid = frame.size.height * 0.5;
                     _arrowOffset = originalFrame.origin.y - frame.origin.y;
                     break;
@@ -432,7 +432,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
 
     BOOL good = NO;
     for (NSNumber *permittedArrowDirection in _permittedArrowDirections) {
-        SexyTooltipArrowDirection arrowDirection = [permittedArrowDirection integerValue];
+        CalmTooltipArrowDirection arrowDirection = [permittedArrowDirection integerValue];
         if ([self positionTooltipForArrowDirection:arrowDirection aroundRect:rect inView:view force:NO]) {
             _arrowDirection = arrowDirection;
             good = YES;
@@ -441,7 +441,7 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     }
 
     if (!good) {
-        SexyTooltipArrowDirection arrowDirection;
+        CalmTooltipArrowDirection arrowDirection;
         if (_isShowing || _permittedArrowDirections.count == 0) {
             arrowDirection = _arrowDirection;
         } else {
@@ -646,11 +646,11 @@ CGRectFromEdgeInsets(CGRect rect, UIEdgeInsets edgeInsets) {
     if (animated) {
         self.isAnimating = YES;
         POPBasicAnimation *expandAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-        expandAnimation.duration = kSexyTooltipDismissDurationExpand;
+        expandAnimation.duration = kCalmTooltipDismissDurationExpand;
         expandAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.05, 1.05)];
         expandAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
             POPBasicAnimation *shrinkAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-            shrinkAnimation.duration = kSexyTooltipDismissDurationExpand;
+            shrinkAnimation.duration = kCalmTooltipDismissDurationExpand;
             shrinkAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(0.01, 0.01)];
             shrinkAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
                 [self cleanupForDismissal];
