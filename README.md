@@ -11,20 +11,20 @@ It handles the gross complexity of view hierarchies and scroll view offsets.  Yo
 
 ## Installation
 
-Add `pod 'SexyTooltip'` to your `Podfile` or download the source [here](https://github.com/calm/SexyTooltip/releases)
+Add `pod 'CalmTooltip'` to your `Podfile` or download the source [here](https://github.com/calm/tooltip/releases)
 
 ## Creation
 
 The default initializer is to give the tooltip a content view which will be contained within the tooltip.
 
 ```objc
-SexyTooltip *errorTooltip = [[SexyTooltip alloc] initWithContentView:self.errorLabel];
+CalmTooltip *errorTooltip = [[CalmTooltip alloc] initWithContentView:self.errorLabel];
 ```
 
-`SexyTooltip` can also be created with an `NSAttributedString`, which will create a UILabel as the tooltip's content view.
+`CalmTooltip` can also be created with an `NSAttributedString`, which will create a UILabel as the tooltip's content view.
 
 ```objc
-SexyTooltip *greetingsTooltip = [[SexyTooltip alloc] initWithAttributedString:greetingsText
+CalmTooltip *greetingsTooltip = [[CalmTooltip alloc] initWithAttributedString:greetingsText
                                                                 sizedToView:self.view
                                                                 withPadding:UIEdgeInsetsMake(10, 5, 10, 5)
                                                                   andMargin:UIEdgeInsetsMake(20, 20, 20, 20)];
@@ -33,7 +33,7 @@ SexyTooltip *greetingsTooltip = [[SexyTooltip alloc] initWithAttributedString:gr
 
 ## Presentation
 
-The true beauty of SexyTooltip shines once you present it.  No more dealing with nested CGRect logic and UIScrollView offsets.  Just pass the view that you want the tooltip to point at, and even as that view moves around the SexyTooltip will continue pointing at the `fromView` (see the example video above)
+The true beauty of CalmTooltip shines once you present it.  No more dealing with nested CGRect logic and UIScrollView offsets.  Just pass the view that you want the tooltip to point at, and even as that view moves around the CalmTooltip will continue pointing at the `fromView` (see the example video above)
 
 ```objc
 [greetingsTooltip presentFromView:self.loginButton
@@ -60,14 +60,14 @@ The default is a nice white with a subtle shadow and curved corners.  You can ch
 
 ## Arrow direction
 
-You can specify an array of `permittedArrowDirections` which specify the preference order of pointing directions.  The tooltip will attempt to fit itself inside the `inView` you passed while maintaining the arrow pointing at the target view or point.  For example, if you're pointing at a view that's moving around the screen, SexyTooltip will continue to be visible as the view moves to the edges by changing its direction in order to stay within the bounds of the `inView`.  This is very powerful for complex tooltip scenarios or cases where you're not sure how the interface might look at the moment of presentation (e.g. variable text sizes)
+You can specify an array of `permittedArrowDirections` which specify the preference order of pointing directions.  The tooltip will attempt to fit itself inside the `inView` you passed while maintaining the arrow pointing at the target view or point.  For example, if you're pointing at a view that's moving around the screen, CalmTooltip will continue to be visible as the view moves to the edges by changing its direction in order to stay within the bounds of the `inView`.  This is very powerful for complex tooltip scenarios or cases where you're not sure how the interface might look at the moment of presentation (e.g. variable text sizes)
 
 ```objc
-typedef NS_ENUM(NSUInteger, SexyTooltipArrowDirection) {
-    SexyTooltipArrowDirectionUp,
-    SexyTooltipArrowDirectionDown,
-    SexyTooltipArrowDirectionLeft,
-    SexyTooltipArrowDirectionRight
+typedef NS_ENUM(NSUInteger, CalmTooltipArrowDirection) {
+    CalmTooltipArrowDirectionUp,
+    CalmTooltipArrowDirectionDown,
+    CalmTooltipArrowDirectionLeft,
+    CalmTooltipArrowDirectionRight
 };
 ```
 
@@ -76,13 +76,13 @@ typedef NS_ENUM(NSUInteger, SexyTooltipArrowDirection) {
 You can optionally hear about any of the following events as the delegate of your tooltip
 
 ```objc
-@protocol SexyTooltipDelegate <NSObject>
+@protocol CalmTooltipDelegate <NSObject>
 
 @optional
-- (void)tooltipDidPresent:(SexyTooltip *)tooltip;
-- (void)tooltipDidDismiss:(SexyTooltip *)tooltip;
-- (void)tooltipWillBeTapped:(SexyTooltip *)tooltip;
-- (void)tooltipWasTapped:(SexyTooltip *)tooltip;
+- (void)tooltipDidPresent:(CalmTooltip *)tooltip;
+- (void)tooltipDidDismiss:(CalmTooltip *)tooltip;
+- (void)tooltipWillBeTapped:(CalmTooltip *)tooltip;
+- (void)tooltipWasTapped:(CalmTooltip *)tooltip;
 
 @end
 ```
